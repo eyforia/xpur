@@ -33,19 +33,4 @@ class XMLIteratorTest extends Specification {
 
     }
 
-    def "iterate stream and print"() {
-        def stream = new FileInputStream("/home/rolz/Downloads/listings.xml")
-        int count = 0
-
-        when:
-        new XMLIterator("listing")
-                .iterate(stream)
-                .each { println "${it.url} ${it.title}" }
-        println count
-
-        then:
-        notThrown(Exception)
-
-    }
-
 }
