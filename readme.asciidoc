@@ -1,0 +1,3 @@
+= XPur - Groovy extension for StAX
+
+XPur is a simple StAX extension for parsing huge XML files in Java/Groovy

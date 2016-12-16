@@ -1,0 +1,22 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+group = 'org.xpur'
+version = '0.1-SNAPSHOT'
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    compile 'com.thoughtworks.xstream:xstream:1.4.8'
+    compile 'commons-io:commons-io:2.5'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.slf4j:slf4j-api:1.7.21'
+
+
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
