@@ -81,7 +81,7 @@ class XMLIterator implements Iterable<Map<String, Object>>, Iterator<Map<String,
                 if (next.characters && !next.asCharacters().whiteSpace) {   //no nested tags
                     result.put(element.name.localPart, reader.getElementText())
                 } else { //has nested tags
-                    result.put(element.name.localPart, create(element))
+                    result.put(element.name.localPart, create(element) ?: null)
                 }
             }
 

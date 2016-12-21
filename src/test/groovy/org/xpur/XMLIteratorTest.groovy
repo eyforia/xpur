@@ -77,4 +77,18 @@ class XMLIteratorTest extends Specification {
         result == carsRefData
     }
 
+    def "iterate xml with self-closing tags - happy path"() {
+        def resource = getClass().getResourceAsStream("cars-self-closing-tags.xml")
+
+        when:
+        def result = new XMLIterator(resource, "car").collect { it }
+
+
+        then:
+        result == [
+                [make: null, model: null, year: '2016'],
+                [:]
+        ]
+    }
+
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cars>
+    <car>
+        <make/>
+        <model></model>
+        <year>2016</year>
+    </car>
+    <car/>
+</cars>
