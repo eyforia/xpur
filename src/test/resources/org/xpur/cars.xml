@@ -9,7 +9,7 @@
         <make>Honda</make>
         <model>Accord</model>
         <year>2015</year>
-        <dealer>
+        <dealer id="345">
             <name>MyAutos</name>
             <phone>123-456-7890</phone>
         </dealer>
