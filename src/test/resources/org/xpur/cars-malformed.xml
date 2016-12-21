@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cars>
+    <car id="1">
+        <make>Ford</make>
+        <model>Mustang GT</model>
+        <year>2016</year>
+    <car id="2">
+        <make>Honda</make>
+        <model>Accord</model>
+        <year>2015</year>
+        <dealer id="345">
+            <name>MyAutos</name>
+            <phone>123-456-7890</phone>
+        </dealer>
+    </car>
+</cars>

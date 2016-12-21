@@ -1,6 +1,5 @@
 package org.xpur
 
-import org.codehaus.stax2.XMLInputFactory2
 import spock.lang.Specification
 
 import static java.nio.charset.StandardCharsets.UTF_8
@@ -47,21 +46,32 @@ class XMLIteratorTest extends Specification {
         result == carsRefData
     }
 
-    def "iterate stream with alternative StAX impl"() {
-        def resource = getClass().getResourceAsStream("cars.xml")
+
+    def "empty valid xml - happy path"() {
+        def resource = getClass().getResourceAsStream("cars-empty.xml")
 
         when:
-        def result = new XMLIterator(resource, "car", XMLInputFactory2.newInstance()).collect { it }
+        def result = new XMLIterator(resource, "car").collect { it }
 
         then:
-        result == carsRefData
+        result == []
     }
 
-    def "iterate reader with alternative StAX impl"() {
-        def reader = new InputStreamReader(getClass().getResourceAsStream("cars.xml"), UTF_8)
+    def "xml with no matches- happy path"() {
+        def resource = getClass().getResourceAsStream("bikes.xml")
 
         when:
-        def result = new XMLIterator(reader, "car").collect { it }
+        def result = new XMLIterator(resource, "car").collect { it }
+
+        then:
+        result == []
+    }
+
+    def "iterate xml with namespaces - happy path"() {
+        def resource = getClass().getResourceAsStream("cars-with-namespaces.xml")
+
+        when:
+        def result = new XMLIterator(resource, "car").collect { it }
 
         then:
         result == carsRefData
