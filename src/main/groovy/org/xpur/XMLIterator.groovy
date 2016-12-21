@@ -16,16 +16,22 @@ class XMLIterator implements Iterable<Map<String, Object>>, Iterator<Map<String,
     private String elementName
     private Map<String, Object> currentElement
 
+    XMLIterator(InputStream inputStream, String elementName, XMLInputFactory staxImpl) {
+        this.reader = staxImpl.createXMLEventReader(inputStream)
+        this.elementName = elementName
+    }
+
     XMLIterator(InputStream inputStream, String elementName) {
-        XMLInputFactory factory = XMLInputFactory.newInstance()
-        this.reader = factory.createXMLEventReader(inputStream)
+        this(inputStream, elementName, XMLInputFactory.newInstance()) //use built-in StAX impl
+    }
+
+    XMLIterator(Reader reader, String elementName, XMLInputFactory staxImpl) {
+        this.reader = staxImpl.createXMLEventReader(reader)
         this.elementName = elementName
     }
 
     XMLIterator(Reader reader, String elementName) {
-        XMLInputFactory factory = XMLInputFactory.newInstance()
-        this.reader = factory.createXMLEventReader(reader)
-        this.elementName = elementName
+        this(reader, elementName, XMLInputFactory.newInstance())
     }
 
     @Override
