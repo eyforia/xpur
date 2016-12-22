@@ -84,11 +84,15 @@ class XMLIteratorTest extends Specification {
         def result = new XMLIterator(resource, "car").collect { it }
 
 
-        then:
-        result == [
-                [make: null, model: null, year: '2016'],
-                [:]
-        ]
+        then: "self-closing tags are interpreted as empty object - they're not NULL and not characters, so can't be really cast to string"
+        result[0].make == [:]
+
+        and: "empty tags are the same - it's an object but has nothing inside - not a string content and no fields, so interpret as empty map"
+        result[0].model == [:]
+
+        and: "make sure top-level elements following the same rules"
+        result[1] == [:]
+        result[2] == [:]
     }
 
 }
