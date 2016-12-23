@@ -1,3 +1,21 @@
+/*
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
 package org.xpur
 
 import groovy.transform.CompileStatic
@@ -9,6 +27,11 @@ import javax.xml.stream.events.EndElement
 import javax.xml.stream.events.StartElement
 import javax.xml.stream.events.XMLEvent
 
+/**
+ * Iterates XML content using StAX Event Reader behind the scenes
+ *
+ * Works as StAX parser on the high level, automatically maps child nodes to Map<String,Object>
+ */
 @CompileStatic
 class XMLIterator implements Iterable<Map<String, Object>>, Iterator<Map<String, Object>> {
 
@@ -16,13 +39,19 @@ class XMLIterator implements Iterable<Map<String, Object>>, Iterator<Map<String,
     private String elementName
     private Map<String, Object> currentElement
 
+    /**
+     * Iterate XML collecting
+     * @param inputStream
+     * @param elementName
+     * @param staxImpl
+     */
     XMLIterator(InputStream inputStream, String elementName, XMLInputFactory staxImpl) {
         this.reader = staxImpl.createXMLEventReader(inputStream)
         this.elementName = elementName
     }
 
     XMLIterator(InputStream inputStream, String elementName) {
-        this(inputStream, elementName, XMLInputFactory.newInstance()) //use built-in StAX impl
+        this(inputStream, elementName, XMLInputFactory.newInstance()) //use default StAX impl
     }
 
     XMLIterator(Reader reader, String elementName, XMLInputFactory staxImpl) {
@@ -31,7 +60,7 @@ class XMLIterator implements Iterable<Map<String, Object>>, Iterator<Map<String,
     }
 
     XMLIterator(Reader reader, String elementName) {
-        this(reader, elementName, XMLInputFactory.newInstance())
+        this(reader, elementName, XMLInputFactory.newInstance()) //use default StAX impl
     }
 
     @Override
