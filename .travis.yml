@@ -1,0 +1,14 @@
+language: groovy
+
+jdk:
+  - openjdk7
+
+os:
+  - linux
+
+branches:
+  only:
+    - master
+
+script:
+  - ./gradlew clean build -i --continue
