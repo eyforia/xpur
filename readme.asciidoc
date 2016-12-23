@@ -1,5 +1,8 @@
 = XPur - simple XML parser for Groovy
 
+[[img-build-status]]
+image::https://travis-ci.org/eyforia/xpur.svg?branch=master[Build Status, link="https://travis-ci.org/eyforia/xpur"]
+
 XPur is a Groovy alternative to SAX/StAX for processing *huge XML files* +
 License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2] +
 
