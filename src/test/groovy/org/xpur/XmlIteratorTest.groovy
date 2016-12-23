@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 import static java.nio.charset.StandardCharsets.UTF_8
 
-class XMLIteratorTest extends Specification {
+class XmlIteratorTest extends Specification {
 
     List<Map<String, Object>> carsRefData = [
             [
@@ -30,7 +30,7 @@ class XMLIteratorTest extends Specification {
         def resource = getClass().getResourceAsStream("cars.xml")
 
         when:
-        def result = new XMLIterator(resource, "car").collect { it }
+        def result = new XmlIterator(resource, "car").collect { it }
 
         then:
         result == carsRefData
@@ -40,7 +40,7 @@ class XMLIteratorTest extends Specification {
         def reader = new InputStreamReader(getClass().getResourceAsStream("cars.xml"), UTF_8)
 
         when:
-        def result = new XMLIterator(reader, "car").collect { it }
+        def result = new XmlIterator(reader, "car").collect { it }
 
         then:
         result == carsRefData
@@ -51,7 +51,7 @@ class XMLIteratorTest extends Specification {
         def resource = getClass().getResourceAsStream("cars-empty.xml")
 
         when:
-        def result = new XMLIterator(resource, "car").collect { it }
+        def result = new XmlIterator(resource, "car").collect { it }
 
         then:
         result == []
@@ -61,7 +61,7 @@ class XMLIteratorTest extends Specification {
         def resource = getClass().getResourceAsStream("bikes.xml")
 
         when:
-        def result = new XMLIterator(resource, "car").collect { it }
+        def result = new XmlIterator(resource, "car").collect { it }
 
         then:
         result == []
@@ -71,7 +71,7 @@ class XMLIteratorTest extends Specification {
         def resource = getClass().getResourceAsStream("cars-with-namespaces.xml")
 
         when:
-        def result = new XMLIterator(resource, "car").collect { it }
+        def result = new XmlIterator(resource, "car").collect { it }
 
         then:
         result == carsRefData
@@ -81,7 +81,7 @@ class XMLIteratorTest extends Specification {
         def resource = getClass().getResourceAsStream("cars-self-closing-tags.xml")
 
         when:
-        def result = new XMLIterator(resource, "car").collect { it }
+        def result = new XmlIterator(resource, "car").collect { it }
 
 
         then: "self-closing tags are interpreted as empty object - they're not NULL and not characters, so can't be really cast to string"

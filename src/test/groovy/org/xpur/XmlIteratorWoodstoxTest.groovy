@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 import static java.nio.charset.StandardCharsets.UTF_8
 
-class XMLIteratorWoodstoxTest extends Specification {
+class XmlIteratorWoodstoxTest extends Specification {
 
     def "iterating stream with WoodStox produces same result as ref impl"() {
         def stream1 = getClass().getResourceAsStream("cars.xml")
@@ -16,8 +16,8 @@ class XMLIteratorWoodstoxTest extends Specification {
         def woodstoxStaxImpl = new WstxInputFactory()
 
         when:
-        def refResult = new XMLIterator(stream1, "car", refStaxImpl).collect { it }
-        def woodstoxResult = new XMLIterator(stream2, "car", woodstoxStaxImpl).collect { it }
+        def refResult = new XmlIterator(stream1, "car", refStaxImpl).collect { it }
+        def woodstoxResult = new XmlIterator(stream2, "car", woodstoxStaxImpl).collect { it }
 
         then:
         refResult && woodstoxResult
@@ -32,8 +32,8 @@ class XMLIteratorWoodstoxTest extends Specification {
         def woodstoxStaxImpl = new WstxInputFactory()
 
         when:
-        def refResult = new XMLIterator(reader1, "car", refStaxImpl).collect { it }
-        def woodstoxResult = new XMLIterator(reader2, "car", woodstoxStaxImpl).collect { it }
+        def refResult = new XmlIterator(reader1, "car", refStaxImpl).collect { it }
+        def woodstoxResult = new XmlIterator(reader2, "car", woodstoxStaxImpl).collect { it }
 
         then:
         refResult && woodstoxResult

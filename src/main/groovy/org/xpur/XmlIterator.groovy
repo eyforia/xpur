@@ -33,7 +33,7 @@ import javax.xml.stream.events.XMLEvent
  * Works as StAX parser on the high level, automatically maps child nodes to Map<String,Object>
  */
 @CompileStatic
-class XMLIterator implements Iterable<Map<String, Object>>, Iterator<Map<String, Object>> {
+class XmlIterator implements Iterable<Map<String, Object>>, Iterator<Map<String, Object>> {
 
     private XMLEventReader reader
     private String elementName
@@ -45,21 +45,21 @@ class XMLIterator implements Iterable<Map<String, Object>>, Iterator<Map<String,
      * @param elementName
      * @param staxImpl
      */
-    XMLIterator(InputStream inputStream, String elementName, XMLInputFactory staxImpl) {
+    XmlIterator(InputStream inputStream, String elementName, XMLInputFactory staxImpl) {
         this.reader = staxImpl.createXMLEventReader(inputStream)
         this.elementName = elementName
     }
 
-    XMLIterator(InputStream inputStream, String elementName) {
+    XmlIterator(InputStream inputStream, String elementName) {
         this(inputStream, elementName, XMLInputFactory.newInstance()) //use default StAX impl
     }
 
-    XMLIterator(Reader reader, String elementName, XMLInputFactory staxImpl) {
+    XmlIterator(Reader reader, String elementName, XMLInputFactory staxImpl) {
         this.reader = staxImpl.createXMLEventReader(reader)
         this.elementName = elementName
     }
 
-    XMLIterator(Reader reader, String elementName) {
+    XmlIterator(Reader reader, String elementName) {
         this(reader, elementName, XMLInputFactory.newInstance()) //use default StAX impl
     }
 
