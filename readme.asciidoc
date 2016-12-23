@@ -1,37 +1,37 @@
-= XPur - Groovy extension for StAX
+= XPur - simple XML parser for Groovy
 
-XPur is a simple parser for huge XML files, built with StAX and Groovy
+XPur is a Groovy alternative to SAX/StAX for processing *huge XML files* +
+License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2] +
 
 == Usage:
 
-[code,groovy]
-.example.groovy
+[[app-listing]]
+[source,groovy]
+.Example.groovy
 ----
-def stream = new FileInputStream("cars.xml")
+InputStream source = new FileInputStream("cars.xml")
 
-new XMLIterator("listing")
-    .iterate(stream)
-    .each { car ->
-            println "${car.make} ${car.model} ${car?.dealer?.phone}"
-    }
+//iterate all 'car' elements and print make / model
+new XMLIterator(source, "car").each { println "${it.make} ${it.model}"}
+
 ----
 
 
-
-[code,xml]
+[[app-listing]]
+[source,xml]
 .cars.xml
 ----
 <?xml version="1.0" encoding="UTF-8" ?>
 <cars>
     <car id="1">
+        <year>2016</year>
         <make>Ford</make>
         <model>Mustang GT</model>
-        <year>2016</year>
     </car>
     <car id="2">
+        <year>2015</year>
         <make>Honda</make>
         <model>Accord</model>
-        <year>2015</year>
         <dealer>
             <name>MyAutos</name>
             <phone>123-456-7890</phone>
