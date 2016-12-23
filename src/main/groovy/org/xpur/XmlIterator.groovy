@@ -28,9 +28,11 @@ import javax.xml.stream.events.StartElement
 import javax.xml.stream.events.XMLEvent
 
 /**
- * Iterates XML content using StAX Event Reader behind the scenes
+ * An implementation of Iterator interface for XML files
+ * Optimized for memory usage and read performance - should process GBs of XML with a few Mb of heap memory
  *
- * Works as StAX parser on the high level, automatically maps child nodes to Map<String,Object>
+ * 1. scans XML for matching elements using StAX, without reading entire document into memory
+ * 2. exports child nodes as POJO over Iterator interface - you can iterate, search, collect etc.
  */
 @CompileStatic
 class XmlIterator implements Iterable<Map<String, Object>>, Iterator<Map<String, Object>> {
@@ -40,25 +42,43 @@ class XmlIterator implements Iterable<Map<String, Object>>, Iterator<Map<String,
     private Map<String, Object> currentElement
 
     /**
-     * Iterate XML collecting
-     * @param inputStream
-     * @param elementName
-     * @param staxImpl
+     * Iterates over an XML file.
+     * @param inputStream source
+     * @param elementName name of child element to find
+     * @param staxImpl custom StAX implementation
      */
     XmlIterator(InputStream inputStream, String elementName, XMLInputFactory staxImpl) {
         this.reader = staxImpl.createXMLEventReader(inputStream)
         this.elementName = elementName
     }
 
+    /**
+     * Iterates over an XML file.
+     * Uses System default StAX implementation
+     * @param inputStream source
+     * @param elementName name of child element to find
+     */
     XmlIterator(InputStream inputStream, String elementName) {
         this(inputStream, elementName, XMLInputFactory.newInstance()) //use default StAX impl
     }
 
+    /**
+     * Iterates over an XML file.
+     * @param reader source
+     * @param elementName name of child element to find
+     * @param staxImpl custom StAX implementation
+     */
     XmlIterator(Reader reader, String elementName, XMLInputFactory staxImpl) {
         this.reader = staxImpl.createXMLEventReader(reader)
         this.elementName = elementName
     }
 
+    /**
+     * Iterates over an XML file.
+     * Uses System default StAX implementation
+     * @param reader source
+     * @param elementName name of child element to find
+     */
     XmlIterator(Reader reader, String elementName) {
         this(reader, elementName, XMLInputFactory.newInstance()) //use default StAX impl
     }
