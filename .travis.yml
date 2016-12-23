@@ -1,7 +1,7 @@
 language: groovy
 
 jdk:
-  - openjdk7
+  - oraclejdk8
 
 os:
   - linux
@@ -14,4 +14,4 @@ before_install:
 - chmod +x gradlew
 
 script:
-  - ./gradlew clean build
+  - ./gradlew clean build --no-daemon
