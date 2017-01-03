@@ -36,7 +36,7 @@ import javax.xml.stream.events.XMLEvent
  * @author <a href="mailto:andrei@claz.org">Andrei Karneyenka</a>
  */
 @CompileStatic
-class XmlIterator implements Iterable<Map<String, Object>>, Iterator<Map<String, Object>> {
+class XmlIterator implements Iterator<Map<String, Object>> {
 
     private XMLEventReader reader
     private String elementName
@@ -82,11 +82,6 @@ class XmlIterator implements Iterable<Map<String, Object>>, Iterator<Map<String,
      */
     XmlIterator(Reader reader, String elementName) {
         this(reader, elementName, XMLInputFactory.newInstance()) //use default StAX impl
-    }
-
-    @Override
-    Iterator<Map> iterator() {
-        return this
     }
 
     @Override
