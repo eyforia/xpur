@@ -3,42 +3,43 @@
 [[img-build-status]]
 image::https://travis-ci.org/eyforia/xpur.svg?branch=master[Build Status, link="https://travis-ci.org/eyforia/xpur"]
 
-XPur is a Groovy alternative to SAX/StAX for processing *huge XML files* +
-License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2] +
+XPur is a Groovy extension to SAX/StAX for processing *huge XML files* +
+License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2]
 
 == Usage:
+Parse https://github.com/eyforia/xpur/blob/master/src/test/resources/org/xpur/cars.xml[cars.xml] -
+print id, make & model for each car:
 
 [[app-listing]]
 [source,groovy]
-.Example.groovy
 ----
 InputStream source = new FileInputStream("cars.xml")
-
-//iterate all 'car' elements and print make / model
-new XmlIterator(source, "car").each { println "${it.id} ${it.make} ${it.model}"}
-
+XmlIterator cars = new XmlIterator(source, "car")
+cars.each {println "${it.id} ${it.make} ${it.model}"}
 ----
 
+One-liner:
+[source,groovy]
+----
+new XmlIterator(source, "car").each {println "${it.make} ${it.model}"}
+----
+
+Download: http://repo.maven.apache.org/maven2/org/xpur/
+
+[[app-listing]]
+[source,groovy]
+.Gradle
+----
+compile 'org.xpur:xpur:0.2'
+----
 
 [[app-listing]]
 [source,xml]
-.cars.xml
+.Maven
 ----
-<?xml version="1.0" encoding="UTF-8" ?>
-<cars>
-    <car id="1">
-        <year>2016</year>
-        <make>Ford</make>
-        <model>Mustang GT</model>
-    </car>
-    <car id="2">
-        <year>2015</year>
-        <make>Honda</make>
-        <model>Accord</model>
-        <dealer>
-            <name>MyAutos</name>
-            <phone>123-456-7890</phone>
-        </dealer>
-    </car>
-</cars>
+<dependency>
+    <groupId>org.xpur</groupId>
+    <artifactId>xpur</artifactId>
+    <version>0.2</version>
+</dependency>
 ----
