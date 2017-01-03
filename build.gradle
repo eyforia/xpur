@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'org.xpur'
-version = '0.3'
+version = '0.4-SNAPSHOT'
 ext.packaging = 'jar'
 description = '''XPur is a cute XML parser for Groovy. It's build on StAX and is capable of handling huge XML files with low memory overhead.'''
 
