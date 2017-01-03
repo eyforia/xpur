@@ -1,19 +1,116 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'org.xpur'
+version = '0.2-SNAPSHOT'
+ext.packaging = 'jar'
+description = '''XPur is a cute XML parser for Groovy. It's build on StAX and is capable of handling huge XML files with low memory overhead.'''
+
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
+def isDevBuild
+def isCiBuild
+def isReleaseBuild
+def sonatypeRepositoryUrl
+
+//set build variables based on build type (release, continuous integration, development)
+if (hasProperty('release')) {
+    assert !version.endsWith('-SNAPSHOT')
+    isReleaseBuild = true
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+} else if (hasProperty('ci')) {
+    isCiBuild = true
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+} else {
+    isDevBuild = true
 }
 
-group = 'org.xpur'
-version = '0.1-SNAPSHOT'
+repositories {
+    mavenCentral()
+}
+
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.7'
-
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     testCompile 'com.fasterxml.woodstox:woodstox-core:5.0.3'
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'javadoc'
+    from 'build/docs/groovydoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+    archives groovydocJar
+    archives sourcesJar
+}
+artifacts {
+    archives groovydocJar, sourcesJar
+}
+//********* artifact signing *********
+if (isReleaseBuild) {
+    signing {
+        sign configurations.archives
+    }
+} else {
+    task signArchives {
+        // do nothing
+    }
+}
+
+uploadArchives {
+    repositories {
+        if (isDevBuild) {
+            mavenLocal()
+        } else {
+            mavenDeployer {
+                repository(url: sonatypeRepositoryUrl) {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+
+                if (isReleaseBuild) {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                }
+
+                pom.project {
+                    name 'XPur'
+                    packaging 'jar'
+                    description rootProject.description
+                    url 'http://xpur.org'
+
+                    scm {
+                        url 'https://github.com/eyforia/xpur'
+                        connection 'scm:git@github.com:eyforia/xpur.git'
+                        developerConnection 'scm:git@github.com:eyforia/xpur.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'eyforia'
+                            name 'Andrei Karneyenka'
+                            email 'eyforia@gmail.com'
+                            url 'https://www.linkedin.com/in/eyforia'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

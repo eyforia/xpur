@@ -28,11 +28,12 @@ import javax.xml.stream.events.StartElement
 import javax.xml.stream.events.XMLEvent
 
 /**
- * An implementation of Iterator interface for XML files
+ * Implementation of Iterator interface for huge XML files
  * Optimized for memory usage and read performance - should process GBs of XML with a few Mb of heap memory
  *
  * 1. scans XML for matching elements using StAX, without reading entire document into memory
  * 2. exports child nodes as POJO over Iterator interface - you can iterate, search, collect etc.
+ * @author <a href="mailto:andrei@claz.org">Andrei Karneyenka</a>
  */
 @CompileStatic
 class XmlIterator implements Iterable<Map<String, Object>>, Iterator<Map<String, Object>> {
