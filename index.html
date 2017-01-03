@@ -424,52 +424,72 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div id="img-build-status" class="imageblock">
+<div class="content">
+<a class="image" href="https://travis-ci.org/eyforia/xpur"><img src="https://travis-ci.org/eyforia/xpur.svg?branch=master" alt="Build Status"></a>
+</div>
+</div>
 <div class="paragraph">
-<p>XPur is a Groovy alternative to SAX/StAX for processing <strong>huge XML files</strong><br>
-License: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache v2</a><br></p>
+<p>XPur is a Groovy extension to SAX/StAX for processing <strong>huge XML files</strong><br>
+License: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache v2</a></p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_usage">Usage:</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Parse <a href="https://github.com/eyforia/xpur/blob/master/src/test/resources/org/xpur/cars.xml">cars.xml</a> -
+print id, make &amp; model for each car:</p>
+</div>
 <div id="app-listing" class="listingblock">
-<div class="title">Example.groovy</div>
 <div class="content">
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">InputStream source = new FileInputStream("cars.xml")
-
-//iterate all 'car' elements and print make / model
-new XmlIterator(source, "car").each { println "${it.id} ${it.make} ${it.model}"}</code></pre>
+XmlIterator cars = new XmlIterator(source, "car")
+cars.each {println "${it.id} ${it.make} ${it.model}"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>One-liner:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">new XmlIterator(source, "car").each {println "${it.make} ${it.model}"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Download: <a href="http://repo.maven.apache.org/maven2/org/xpur/" class="bare">http://repo.maven.apache.org/maven2/org/xpur/</a></p>
+</div>
+<div id="app-listing" class="listingblock">
+<div class="title">Gradle</div>
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile 'org.xpur:xpur:0.2'</code></pre>
 </div>
 </div>
 <div id="app-listing" class="listingblock">
-<div class="title">cars.xml</div>
+<div class="title">Maven</div>
 <div class="content">
-<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
-&lt;cars&gt;
-    &lt;car id="1"&gt;
-        &lt;year&gt;2016&lt;/year&gt;
-        &lt;make&gt;Ford&lt;/make&gt;
-        &lt;model&gt;Mustang GT&lt;/model&gt;
-    &lt;/car&gt;
-    &lt;car id="2"&gt;
-        &lt;year&gt;2015&lt;/year&gt;
-        &lt;make&gt;Honda&lt;/make&gt;
-        &lt;model&gt;Accord&lt;/model&gt;
-        &lt;dealer&gt;
-            &lt;name&gt;MyAutos&lt;/name&gt;
-            &lt;phone&gt;123-456-7890&lt;/phone&gt;
-        &lt;/dealer&gt;
-    &lt;/car&gt;
-&lt;/cars&gt;</code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.xpur&lt;/groupId&gt;
+    &lt;artifactId&gt;xpur&lt;/artifactId&gt;
+    &lt;version&gt;0.2&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sources">Sources:</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://github.com/eyforia/xpur" class="bare">https://github.com/eyforia/xpur</a></p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-12-23 02:47:24 EST
+Last updated 2017-01-03 17:39:26 EST
 </div>
 </div>
 </body>
