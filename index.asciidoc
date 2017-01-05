@@ -30,7 +30,7 @@ Download: http://repo.maven.apache.org/maven2/org/xpur/
 [source,groovy]
 .Gradle
 ----
-compile 'org.xpur:xpur:0.2'
+compile 'org.xpur:xpur:0.4'
 ----
 
 [[app-listing]]
@@ -40,7 +40,7 @@ compile 'org.xpur:xpur:0.2'
 <dependency>
     <groupId>org.xpur</groupId>
     <artifactId>xpur</artifactId>
-    <version>0.2</version>
+    <version>0.4</version>
 </dependency>
 ----
 
