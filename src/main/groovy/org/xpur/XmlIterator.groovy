@@ -33,6 +33,11 @@ import javax.xml.stream.events.XMLEvent
  *
  * 1. scans XML for matching elements using StAX, without reading entire document into memory
  * 2. exports child nodes as POJO over Iterator interface - you can iterate, search, collect etc.
+ *
+ * This iterator returns 2 types of objects:
+ *  1. Map - if the element has child elements or is a self-closing tag (e.g. <secure/>)
+ *  2. String - if the element is a simple tag, e.g. <name>John</name>
+ *
  * @author <a href="mailto:andrei@claz.org">Andrei Karneyenka</a>
  */
 @CompileStatic
@@ -44,6 +49,11 @@ class XmlIterator implements Iterator {
 
     /**
      * Iterates over an XML file.
+     *
+     * This iterator returns 2 types of objects:
+     *  1. Map - if the element has child elements or is a self-closing tag (e.g. <secure/>)
+     *  2. String - if the element is a simple tag, e.g. <name>John</name>
+     *
      * @param inputStream source
      * @param elementName name of child element to find
      */
@@ -54,9 +64,13 @@ class XmlIterator implements Iterator {
 
     /**
      * Iterates over an XML file.
+     *
+     * This iterator returns 2 types of objects:
+     *  1. Map - if the element has child elements or is a self-closing tag (e.g. <secure/>)
+     *  2. String - if the element is a simple tag, e.g. <name>John</name>
+     *
      * @param reader source
      * @param elementName name of child element to find
-     * @param staxImpl custom StAX implementation
      */
     XmlIterator(Reader reader, String elementName) {
         this.reader = XMLInputFactory.newInstance().createXMLEventReader(reader)
@@ -71,6 +85,13 @@ class XmlIterator implements Iterator {
         return currentElement != null
     }
 
+    /**
+     * This method will return either of 2 types of objects:
+     *  1. Map - if the element has child elements or is a self-closing tag (e.g. <secure/>)
+     *  2. String - if the element is a simple tag, e.g. <name>John</name>
+     *
+     * @return
+     */
     @Override
     Object next() {
         Object result = currentElement
