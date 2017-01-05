@@ -95,4 +95,78 @@ class XmlIteratorTest extends Specification {
         result[2] == [:]
     }
 
+    def "iterate stream with CDATA - happy path"() {
+        def resource = getClass().getResourceAsStream("cars-cdata.xml")
+
+        when:
+        def result = new XmlIterator(resource, "car").collect { it }
+
+        then: "properly terminated CData lines are parsed correctly"
+        result[0] == [id: '1', make: 'Ford', model: 'Mustang GT', year: '2016']
+
+        and: "don't fix and pass as-is if CData lines are not terminated / initiated properly"
+        result[1].make == "\n            Honda\n        "
+        result[1].model == "Accord\n        "
+        result[1].year == "\n            2015"
+
+    }
+
+    def "iterate xml with simple tags"() {
+        def resource = getClass().getResourceAsStream("ids.xml")
+
+        when: "iterating xml with simple tags"
+        def result = new XmlIterator(resource, "id").collect { it }
+
+        then: "they must come as iterator of strings"
+        result[0] == '1234'
+        result[1] == '5678'
+    }
+
+    def "iterate root element"() {
+        def resource = getClass().getResourceAsStream("car.xml")
+
+        when: "iterating root element of the xml"
+        def result = new XmlIterator(resource, "car").collect { it }
+
+        then: "result must come as iterator with single element "
+        result.size() == 1
+        result[0] == [
+                id   : '1',
+                make : 'Ford',
+                model: 'Mustang GT',
+                year : '2016'
+        ]
+    }
+
+
+    def "iterate deeply nested elements"() {
+        def resource = getClass().getResourceAsStream("cars-nested.xml")
+
+        when: "iterating deeply nested elements within xml, let's say dealer element within cars"
+        def result = new XmlIterator(resource, "dealer").collect { it }
+
+        then: "it should work exactly as with 1st level elements"
+        result.size() == 2
+        result[0] == [
+                id   : '123',
+                name : 'Cheap Autos',
+                phone: '123-456-7890',
+        ]
+        result[1] == [
+                id  : '456',
+                name: 'Joe\'s Cars',
+
+        ]
+    }
+
+    def "iterate deeply nested simple tags"() {
+        def resource = getClass().getResourceAsStream("cars.xml")
+
+        when: "iterating deeply nested simple tags within xml, let's say year within cars"
+        def result = new XmlIterator(resource, "year").collect { it }
+
+        then: "they must come as strings as with any other simple tags"
+        result == ['2016', '2015']
+    }
+
 }

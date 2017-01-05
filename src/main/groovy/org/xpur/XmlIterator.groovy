@@ -36,31 +36,20 @@ import javax.xml.stream.events.XMLEvent
  * @author <a href="mailto:andrei@claz.org">Andrei Karneyenka</a>
  */
 @CompileStatic
-class XmlIterator implements Iterator<Map<String, Object>> {
+class XmlIterator implements Iterator {
 
     private XMLEventReader reader
     private String elementName
-    private Map<String, Object> currentElement
+    private Object currentElement
 
     /**
      * Iterates over an XML file.
-     * @param inputStream source
-     * @param elementName name of child element to find
-     * @param staxImpl custom StAX implementation
-     */
-    XmlIterator(InputStream inputStream, String elementName, XMLInputFactory staxImpl) {
-        this.reader = staxImpl.createXMLEventReader(inputStream)
-        this.elementName = elementName
-    }
-
-    /**
-     * Iterates over an XML file.
-     * Uses System default StAX implementation
      * @param inputStream source
      * @param elementName name of child element to find
      */
     XmlIterator(InputStream inputStream, String elementName) {
-        this(inputStream, elementName, XMLInputFactory.newInstance()) //use default StAX impl
+        this.reader = XMLInputFactory.newInstance().createXMLEventReader(inputStream)
+        this.elementName = elementName
     }
 
     /**
@@ -69,19 +58,9 @@ class XmlIterator implements Iterator<Map<String, Object>> {
      * @param elementName name of child element to find
      * @param staxImpl custom StAX implementation
      */
-    XmlIterator(Reader reader, String elementName, XMLInputFactory staxImpl) {
-        this.reader = staxImpl.createXMLEventReader(reader)
-        this.elementName = elementName
-    }
-
-    /**
-     * Iterates over an XML file.
-     * Uses System default StAX implementation
-     * @param reader source
-     * @param elementName name of child element to find
-     */
     XmlIterator(Reader reader, String elementName) {
-        this(reader, elementName, XMLInputFactory.newInstance()) //use default StAX impl
+        this.reader = XMLInputFactory.newInstance().createXMLEventReader(reader)
+        this.elementName = elementName
     }
 
     @Override
@@ -93,13 +72,13 @@ class XmlIterator implements Iterator<Map<String, Object>> {
     }
 
     @Override
-    Map<String, Object> next() {
-        Map<String, Object> result = currentElement
+    Object next() {
+        Object result = currentElement
         currentElement = null
         return result
     }
 
-    private Map<String, Object> findNext(String elementName) {
+    private Object findNext(String elementName) {
         while (reader.hasNext()) {
             XMLEvent event = reader.nextEvent()
             if (event.isStartElement()) {
@@ -112,8 +91,11 @@ class XmlIterator implements Iterator<Map<String, Object>> {
         return null
     }
 
-    private Map<String, Object> create(StartElement startElement) {
+    private Object create(StartElement startElement) {
         Map<String, Object> result = new LinkedHashMap<>()
+        StringBuilder text = null
+        boolean hadChildren = false
+
         //add attributes first
         Iterator<Attribute> attributes = (Iterator<Attribute>) startElement.attributes
         attributes?.each { Attribute attr -> result.put(attr.name.localPart, attr.value) }
@@ -121,13 +103,15 @@ class XmlIterator implements Iterator<Map<String, Object>> {
         while (reader.hasNext()) {
             XMLEvent event = reader.nextEvent()
             if (event.isStartElement()) {
-                StartElement element = event.asStartElement()
-                XMLEvent next = reader.peek()
-                if (next.characters && !next.asCharacters().whiteSpace) {   //no nested tags
-                    result.put(element.name.localPart, reader.getElementText())
-                } else { //has nested tags
-                    result.put(element.name.localPart, create(element))
-                }
+                StartElement child = event.asStartElement()
+                result[child.name.localPart] = create(child)
+                hadChildren = true
+            }
+
+            if (event.isCharacters() && !event.asCharacters().isIgnorableWhiteSpace()) {
+                if (text == null)
+                    text = new StringBuilder()
+                text.append(event.asCharacters().getData())
             }
 
             if (event.isEndElement()) {
@@ -136,9 +120,19 @@ class XmlIterator implements Iterator<Map<String, Object>> {
                     break
                 }
 
+                if (text != null) {
+                    result.put(endElement.name.localPart, text.toString())
+                    text = null
+                }
             }
         }
-        return result
+
+        if (hadChildren)
+            text = null
+
+        if (result && text)
+            result[null] = text
+        return (text?.toString()) ?: result
     }
 
 }
