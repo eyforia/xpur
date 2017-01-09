@@ -1,4 +1,4 @@
-= XPur - simple XML parser for Groovy
+= image:https://raw.githubusercontent.com/eyforia/xpur/gh-pages/images/logo-small.png[Logo] XPur - simple XML parser for Groovy
 
 [[img-build-status]]
 image::https://travis-ci.org/eyforia/xpur.svg?branch=master[Build Status, link="https://travis-ci.org/eyforia/xpur"]
@@ -7,6 +7,7 @@ XPur is a Groovy extension to SAX/StAX for processing *huge XML files* +
 License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2]
 
 == Usage:
+
 Parse https://github.com/eyforia/xpur/blob/master/src/test/resources/org/xpur/cars.xml[cars.xml] -
 print id, make & model for each car:
 
