@@ -169,4 +169,15 @@ class XmlIteratorTest extends Specification {
         result == ['2016', '2015']
     }
 
+
+    def "handle implicit collections"() {
+        def resource = getClass().getResourceAsStream("car-implicit-collection.xml")
+
+        when:
+        def car = new XmlIterator(resource, "car").find { it }
+
+        then: "they must come as strings as with any other simple tags"
+        car.images.image == ["test1", "test2", "test3"]
+    }
+
 }

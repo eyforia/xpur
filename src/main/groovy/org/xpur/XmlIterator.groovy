@@ -112,6 +112,26 @@ class XmlIterator implements Iterator {
         return null
     }
 
+    /**
+     * add field to an object - should handle primitives and implicit collections
+     * @param to
+     * @param field
+     * @param value
+     */
+    private void put(Map<String, Object> to, String field, Object value) {
+        def existingValue = to[field]
+
+        if (existingValue == null) {
+            to.put(field,value)
+        } else if (existingValue instanceof List) { //existing implicit collection
+            (existingValue as List).add(value)
+        } else {  //new implicit collection
+            to[field] = [existingValue, value]
+        }
+
+    }
+
+
     private Object create(StartElement startElement) {
         Map<String, Object> result = new LinkedHashMap<>()
         StringBuilder text = null
@@ -125,7 +145,8 @@ class XmlIterator implements Iterator {
             XMLEvent event = reader.nextEvent()
             if (event.isStartElement()) {
                 StartElement child = event.asStartElement()
-                result[child.name.localPart] = create(child)
+                def value = create(child)
+                put(result, child.name.localPart, value)
                 hadChildren = true
             }
 
@@ -142,7 +163,7 @@ class XmlIterator implements Iterator {
                 }
 
                 if (text != null) {
-                    result.put(endElement.name.localPart, text.toString())
+                    put(result,endElement.name.localPart,text.toString())
                     text = null
                 }
             }
