@@ -41,6 +41,6 @@ compile 'org.xpur:xpur:0.4'
 <dependency>
     <groupId>org.xpur</groupId>
     <artifactId>xpur</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
 </dependency>
 ----
