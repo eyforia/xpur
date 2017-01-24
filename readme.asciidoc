@@ -3,7 +3,7 @@
 [[img-build-status]]
 image::https://travis-ci.org/eyforia/xpur.svg?branch=master[Build Status, link="https://travis-ci.org/eyforia/xpur"]
 
-XPur is a minimalistic XML parser for *huge XML files*, written in http://www.groovy-lang.org[Groovy]
+Minimalistic XML parser for *huge XML files*, written in http://www.groovy-lang.org[Groovy]
 
 License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2]
 
@@ -28,8 +28,6 @@ cars.each { car ->
 new XmlIterator(source, "car").each {println "${it.make} ${it.model}"}
 ----
 
-Download: http://repo.maven.apache.org/maven2/org/xpur/
-
 [[app-listing]]
 [source,groovy]
 .Gradle
@@ -47,3 +45,7 @@ compile 'org.xpur:xpur:0.5'
     <version>0.5</version>
 </dependency>
 ----
+
+Download: http://repo.maven.apache.org/maven2/org/xpur/
+
+Project Page: http://xpur.org
