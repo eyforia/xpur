@@ -31,7 +31,7 @@ Download: http://repo.maven.apache.org/maven2/org/xpur/
 [source,groovy]
 .Gradle
 ----
-compile 'org.xpur:xpur:0.4'
+compile 'org.xpur:xpur:0.5'
 ----
 
 [[app-listing]]
