@@ -1,4 +1,4 @@
-= image:https://raw.githubusercontent.com/eyforia/xpur/gh-pages/images/logo-small.png[Logo] XPur - simple XML parser for Groovy
+= image:https://raw.githubusercontent.com/eyforia/xpur/gh-pages/images/logo-small.png[Logo] XPur - StAX XML iterator / parser for Groovy
 
 [[img-build-status]]
 image::https://travis-ci.org/eyforia/xpur.svg?branch=master[Build Status, link="https://travis-ci.org/eyforia/xpur"]
