@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.4">
-<title>XPur - simple XML parser for Groovy</title>
+<title>XPur - StAX XML parser for Groovy</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -419,10 +419,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><span class="image"><img src="https://raw.githubusercontent.com/eyforia/xpur/gh-pages/images/logo-small.png" alt="Logo"></span> XPur - simple XML parser for Groovy</h1>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="__span_class_image_img_src_https_raw_githubusercontent_com_eyforia_xpur_gh_pages_images_logo_small_png_alt_logo_span_xpur_stax_xml_parser_for_groovy"><span class="image"><img src="https://raw.githubusercontent.com/eyforia/xpur/gh-pages/images/logo-small.png" alt="Logo"></span> XPur - StAX XML parser for Groovy</h2>
 <div class="sectionbody">
 <div id="img-build-status" class="imageblock">
 <div class="content">
@@ -430,42 +430,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="paragraph">
-<p>XPur is a StAX XML iterator for Groovy, designed to parse <strong>humongous XML files</strong></p>
+<p>Minimalistic XML parser for <strong>huge XML files</strong>, written in <a href="http://www.groovy-lang.org">Groovy</a></p>
 </div>
 <div class="paragraph">
 <p>License: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache v2</a></p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_usage">Usage:</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_usage">Usage:</h3>
 <div class="paragraph">
 <p>Parse <a href="https://github.com/eyforia/xpur/blob/master/src/test/resources/org/xpur/cars.xml">cars.xml</a> -
 print id, make &amp; model for each car:</p>
 </div>
 <div id="app-listing" class="listingblock">
+<div class="title">Example.groovy</div>
 <div class="content">
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">InputStream source = new FileInputStream("cars.xml")
 XmlIterator cars = new XmlIterator(source, "car")
-cars.each {println "${it.id} ${it.make} ${it.model}"}</code></pre>
+cars.each { car -&gt;
+	println "${car.id} ${car.make} ${car.model}"
+}</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>One-liner:</p>
 </div>
 <div class="listingblock">
+<div class="title">OneLiner.groovy</div>
 <div class="content">
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">new XmlIterator(source, "car").each {println "${it.make} ${it.model}"}</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Download: <a href="http://repo.maven.apache.org/maven2/org/xpur/" class="bare">http://repo.maven.apache.org/maven2/org/xpur/</a></p>
-</div>
 <div id="app-listing" class="listingblock">
 <div class="title">Gradle</div>
 <div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile 'org.xpur:xpur:0.4'</code></pre>
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">compile 'org.xpur:xpur:0.5'</code></pre>
 </div>
 </div>
 <div id="app-listing" class="listingblock">
@@ -474,24 +469,23 @@ cars.each {println "${it.id} ${it.make} ${it.model}"}</code></pre>
 <pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependency&gt;
     &lt;groupId&gt;org.xpur&lt;/groupId&gt;
     &lt;artifactId&gt;xpur&lt;/artifactId&gt;
-    &lt;version&gt;0.4&lt;/version&gt;
+    &lt;version&gt;0.5&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sources">Sources:</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://github.com/eyforia/xpur" class="bare">https://github.com/eyforia/xpur</a></p>
+<p>Download: <a href="http://repo.maven.apache.org/maven2/org/xpur/" class="bare">http://repo.maven.apache.org/maven2/org/xpur/</a></p>
+</div>
+<div class="paragraph">
+<p>Sources: <a href="https://github.com/eyforia/xpur" class="bare">https://github.com/eyforia/xpur</a></p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-23 21:23:35 EST
+Last updated 2017-01-24 00:11:47 EST
 </div>
 </div>
 </body>

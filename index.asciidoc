@@ -1,38 +1,38 @@
-= image:https://raw.githubusercontent.com/eyforia/xpur/gh-pages/images/logo-small.png[Logo] XPur - simple XML parser for Groovy
+== image:https://raw.githubusercontent.com/eyforia/xpur/gh-pages/images/logo-small.png[Logo] XPur - StAX XML parser for Groovy
 
 [[img-build-status]]
 image::https://travis-ci.org/eyforia/xpur.svg?branch=master[Build Status, link="https://travis-ci.org/eyforia/xpur"]
 
-XPur is a StAX XML iterator for Groovy, designed to parse *humongous XML files*
+Minimalistic XML parser for *huge XML files*, written in http://www.groovy-lang.org[Groovy]
 
 License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2]
 
-== Usage:
-
+=== Usage:
 Parse https://github.com/eyforia/xpur/blob/master/src/test/resources/org/xpur/cars.xml[cars.xml] -
 print id, make & model for each car:
 
 [[app-listing]]
 [source,groovy]
+.Example.groovy
 ----
 InputStream source = new FileInputStream("cars.xml")
 XmlIterator cars = new XmlIterator(source, "car")
-cars.each {println "${it.id} ${it.make} ${it.model}"}
+cars.each { car ->
+	println "${car.id} ${car.make} ${car.model}"
+}
 ----
 
-One-liner:
 [source,groovy]
+.OneLiner.groovy
 ----
 new XmlIterator(source, "car").each {println "${it.make} ${it.model}"}
 ----
-
-Download: http://repo.maven.apache.org/maven2/org/xpur/
 
 [[app-listing]]
 [source,groovy]
 .Gradle
 ----
-compile 'org.xpur:xpur:0.4'
+compile 'org.xpur:xpur:0.5'
 ----
 
 [[app-listing]]
@@ -42,9 +42,10 @@ compile 'org.xpur:xpur:0.4'
 <dependency>
     <groupId>org.xpur</groupId>
     <artifactId>xpur</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
 </dependency>
 ----
 
-== Sources:
-https://github.com/eyforia/xpur
+Download: http://repo.maven.apache.org/maven2/org/xpur/
+
+Sources: https://github.com/eyforia/xpur
