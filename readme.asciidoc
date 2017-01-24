@@ -3,7 +3,8 @@
 [[img-build-status]]
 image::https://travis-ci.org/eyforia/xpur.svg?branch=master[Build Status, link="https://travis-ci.org/eyforia/xpur"]
 
-XPur is a Groovy extension to SAX/StAX for processing *huge XML files* +
+XPur is a StAX XML iterator for Groovy, designed to parse *humongous XML files*
+
 License: https://www.apache.org/licenses/LICENSE-2.0[Apache v2]
 
 == Usage:
