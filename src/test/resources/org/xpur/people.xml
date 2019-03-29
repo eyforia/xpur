@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<people>
+    <adult>Jack</adult>
+    <adult>Jane</adult>
+    <child>Jim</child>
+    <adult>John</adult>
+</people>
