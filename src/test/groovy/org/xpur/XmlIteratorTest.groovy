@@ -1,7 +1,7 @@
 package org.xpur
 
 import spock.lang.Specification
-
+import javax.xml.stream.events.StartElement
 import static java.nio.charset.StandardCharsets.UTF_8
 
 class XmlIteratorTest extends Specification {
@@ -180,4 +180,32 @@ class XmlIteratorTest extends Specification {
         car.images.image == ["test1", "test2", "test3"]
     }
 
+    def "handle undefined element name"() {
+        def resource = getClass().getResourceAsStream("people.xml")
+
+        when: "iterating elements without tag name specified"
+        def result = new XmlIterator(resource, null).collect { it }
+
+        then: "single element with sub-lists is returned"
+        result == [
+            [
+                adult: ['Jack', 'Jane', 'John'],
+                child: 'Jim'
+            ]
+        ]
+    }
+
+    def "refine element matching"() {
+        def resource = getClass().getResourceAsStream("people.xml")
+
+        when: "overriding matching predicate"
+        def result = new XmlIterator(resource, null) {
+            protected boolean isDesired(StartElement startElement) {
+                startElement.name.localPart in ['adult', 'child']
+            }
+        }.collect { it }
+
+        then: "all matching elements are returned"
+        result == ['Jack', 'Jane', 'Jim', 'John']
+    }
 }

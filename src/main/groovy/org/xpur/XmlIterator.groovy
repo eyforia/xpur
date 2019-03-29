@@ -55,7 +55,7 @@ class XmlIterator implements Iterator {
      *  2. String - if the element is a simple tag, e.g. <name>John</name>
      *
      * @param inputStream source
-     * @param elementName name of child element to find
+     * @param elementName name of child element to find or null if all elements are to be returned
      */
     XmlIterator(InputStream inputStream, String elementName) {
         this.reader = XMLInputFactory.newInstance().createXMLEventReader(inputStream)
@@ -70,7 +70,7 @@ class XmlIterator implements Iterator {
      *  2. String - if the element is a simple tag, e.g. <name>John</name>
      *
      * @param reader source
-     * @param elementName name of child element to find
+     * @param elementName name of child element to find or null if all elements are to be returned
      */
     XmlIterator(Reader reader, String elementName) {
         this.reader = XMLInputFactory.newInstance().createXMLEventReader(reader)
@@ -80,7 +80,7 @@ class XmlIterator implements Iterator {
     @Override
     boolean hasNext() {
         if (currentElement == null && reader.hasNext())
-            currentElement = findNext(elementName)
+            currentElement = findNext()
 
         return currentElement != null
     }
@@ -99,12 +99,24 @@ class XmlIterator implements Iterator {
         return result
     }
 
-    private Object findNext(String elementName) {
+    /**
+     * This method decides whether an element is to be returned by the iterator.
+     * The base implementation matches a specified elementName, though subclasses
+     * may redefine this element search.
+     *
+     * @param startElement element
+     * @return true iff an element is to be returned by the iterator
+     */
+    protected boolean isDesired(StartElement startElement) {
+        elementName == null || startElement.name?.localPart == elementName
+    }
+
+    private Object findNext() {
         while (reader.hasNext()) {
             XMLEvent event = reader.nextEvent()
             if (event.isStartElement()) {
                 StartElement startElement = event.asStartElement()
-                if (startElement.name?.localPart == elementName) {
+                if (isDesired(startElement)) {
                     return create(startElement)
                 }
             }
