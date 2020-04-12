@@ -1,14 +1,17 @@
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'signing'
+plugins {
+    id 'java-library'
+    id 'groovy'
+    id 'maven'
+    id 'signing'
+}
 
 group = 'org.xpur'
-version = '0.6'
+version = '0.7-SNAPSHOT'
 ext.packaging = 'jar'
 description = '''XPur is a cute XML parser for Groovy. It's build on StAX and is capable of handling huge XML files with low memory overhead.'''
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 def isDevBuild
 def isCiBuild
@@ -31,21 +34,21 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.7'
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
-    testCompile 'com.fasterxml.woodstox:woodstox-core:5.0.3'
+    api 'org.codehaus.groovy:groovy:3.0.3'
+    testImplementation 'org.spockframework:spock-core:2.0-M2-groovy-3.0'
+    testImplementation 'com.fasterxml.woodstox:woodstox-core:6.1.1'
 }
 
+
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
-    classifier = 'javadoc'
+    archiveClassifier= 'javadoc'
     from 'build/docs/groovydoc'
 }
 
 task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
-    classifier = 'sources'
 }
 
 artifacts {
