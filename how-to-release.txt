@@ -1,0 +1,25 @@
+1. build.gradle - change version to "-SNAPSHOT"
+2. build locally
+3. push to github
+4. make sure build is passing https://travis-ci.org/github/eyforia/xpur
+5. publish snapshot artifacts to maven central:
+   ./gradlew -Pci=true clean build uploadArchives
+6. make sure snapshots are published successfully: https://oss.sonatype.org/#nexus-search;quick~xpur
+7. verify signing keys are configured
+	a. check installed secret keys:
+		gpg --list-secret-keys
+	b. make sure one of private keys matches "signing.keyId" in gradle.properties (last 8 bytes)
+	c. re-export secret keys to "secring.gpg" (needed since GnuPG 2.1 stores keys in pubring.kbx)
+		gpg --export-secret-keys >~/.gnupg/secring.gpg
+	d. distribute public keys:
+		gpg --keyserver hkp://pool.sks-keyservers.net --send-keys 1F7AEA93
+
+8. edit build.gradle - remove "-SNAPSHOT" from version
+9. commit and push release
+10. publish maven artifacts to staging repo:
+	./gradlew -Prelease=true clean build uploadArchives
+11. release staging artifacts on sonatype:
+	a. navigate to https://oss.sonatype.org/#stagingRepositories
+	b. click "orgxpur-xxx" -> select "close"
+	c. refresh until artifact is in "closed" state
+	d. click "release"
