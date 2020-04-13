@@ -58,7 +58,7 @@ class XmlIterator implements Iterator {
      * @param elementName name of child element to find or null if all elements are to be returned
      */
     XmlIterator(InputStream inputStream, String elementName) {
-        this.reader = XMLInputFactory.newInstance().createXMLEventReader(inputStream)
+        this.reader = factory().createXMLEventReader(inputStream)
         this.elementName = elementName
     }
 
@@ -73,8 +73,22 @@ class XmlIterator implements Iterator {
      * @param elementName name of child element to find or null if all elements are to be returned
      */
     XmlIterator(Reader reader, String elementName) {
-        this.reader = XMLInputFactory.newInstance().createXMLEventReader(reader)
+        this.reader = factory().createXMLEventReader(reader)
         this.elementName = elementName
+    }
+
+    private XMLInputFactory factory() {
+        XMLInputFactory.newInstance().tap {
+            setProperty(IS_NAMESPACE_AWARE, true)
+
+            setProperty(IS_REPLACING_ENTITY_REFERENCES, false)
+            setProperty(IS_SUPPORTING_EXTERNAL_ENTITIES, false)
+
+            setProperty(IS_COALESCING, false)
+            setProperty(IS_VALIDATING, false)
+
+            setProperty(SUPPORT_DTD, false)
+        }
     }
 
     @Override

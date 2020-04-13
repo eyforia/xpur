@@ -40,6 +40,10 @@ dependencies {
     testImplementation 'com.fasterxml.woodstox:woodstox-core:6.1.1'
 }
 
+test{
+    useJUnitPlatform()  //use jUnit5 / Spock2
+}
+
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
     archiveClassifier= 'javadoc'
@@ -108,7 +112,7 @@ uploadArchives {
                         developer {
                             id 'eyforia'
                             name 'Andrei Karneyenka'
-                            email 'eyforia@gmail.com'
+                            email 'andrei@claz.org'
                             url 'https://www.linkedin.com/in/eyforia'
                         }
                     }
