@@ -32,7 +32,7 @@ new XmlIterator(source, "car").each {println "${it.make} ${it.model}"}
 [source,groovy]
 .Gradle
 ----
-compile 'org.xpur:xpur:0.5'
+implementation 'org.xpur:xpur:0.7'
 ----
 
 [[app-listing]]
@@ -42,7 +42,7 @@ compile 'org.xpur:xpur:0.5'
 <dependency>
     <groupId>org.xpur</groupId>
     <artifactId>xpur</artifactId>
-    <version>0.5</version>
+    <version>0.7</version>
 </dependency>
 ----
 
