@@ -35,8 +35,8 @@ repositories {
 }
 
 dependencies {
-    api 'org.codehaus.groovy:groovy:3.0.3'
-    testImplementation 'org.spockframework:spock-core:2.0-M2-groovy-3.0'
+    api 'org.codehaus.groovy:groovy:3.0.7'
+    testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
     testImplementation 'com.fasterxml.woodstox:woodstox-core:6.1.1'
 }
 
